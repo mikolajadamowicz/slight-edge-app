@@ -1,7 +1,10 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Fragment } from 'react';
 import { Text, View, Dimensions, Button, AsyncStorage } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { Backdrop } from 'react-native-backdrop';
+
+
 
 export default function MainView() {
 	const [state, setState] = useState(0);
@@ -84,6 +87,30 @@ export default function MainView() {
 				}}
 				title="Set"
 			/>
+
+			<Backdrop
+				visible={true}
+				handleOpen={() => {}}
+				handleClose={() => {}}
+				onClose={() => {}}
+				swipeConfig={{
+					velocityThreshold: 0.3,
+					directionalOffsetThreshold: 80,
+				}}
+				closedHeight={40}
+				animationConfig={{
+					speed: 14,
+					bounciness: 4,
+				}}
+				overlayColor="rgba(0,0,0,0.32)"
+				backdropStyle={{
+					backgroundColor: '#fff',
+				}}
+			>
+				<View>
+					<Text>Backdrop Content</Text>
+				</View>
+			</Backdrop>
 		</SafeAreaView>
 	);
 }
