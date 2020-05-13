@@ -1,95 +1,101 @@
 import React, { useState, useEffect, Fragment } from 'react';
-import { Text, View, Dimensions, Button, AsyncStorage } from 'react-native';
+import { View, Button, AsyncStorage } from 'react-native';
 import { LineChart } from 'react-native-chart-kit';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Backdrop } from 'react-native-backdrop';
+import moment from 'moment';
+import Chart from '../components/LineChart';
+import AppText from '../components/AppText';
 
 
 
 export default function MainView() {
-	const [state, setState] = useState(0);
+	const [score, setScore] = useState(0);
 	const [dataset, setDataset] = useState([0]);
+	const [dbData, setDbData] = useState([0]);
+
+
+
+	//Use WatermelonDB as dataStorag
+	// use watermelon db only if you can get first 15 items for example 
+	//https://github.com/Nozbe/WatermelonDB
 
 	const getData = async () => {
 		try {
 			const storageState = await AsyncStorage.getItem('@State');
 			const storageDataset = await AsyncStorage.getItem('@Dataset');
-			setState(JSON.parse(storageState) || 0);
+			const onlyValues = 
+			setScore(JSON.parse(storageState) || 0);
 			setDataset(JSON.parse(storageDataset) || [0]);
 		} catch (e) {
 			console.log(e);
 		}
 	};
 
+	const setClicked = async () => {
+		//check if it's the same day 
+		// add date to data 
+		const currentDate = moment();
+
+		const newDbData=[...dbData]
+		const newDataset = [...dataset];
+		const lastData = newDbData[newDbData.length - 1];
+		if (currentDate.isSame(lastData?.date, 'day')) {
+			const lastDataset = lastDataset[lastDataset.length - 1];
+			lastData.value = score;
+			lastDataset = score;
+		} else {
+			newDataset.push(score);
+			newDbData.push({ date: currentDate, value: score });
+		}
+
+		setDbData(newDbData);
+		setDataset(newDataset);
+		await saveData(score, newState);
+	};
+
 	useEffect(() => {
 		getData();
 	}, []);
 
-	const saveData = async (state, dataset) => {
+	const saveData = async (score, dataset) => {
 		await AsyncStorage.setItem('@Dataset', JSON.stringify(dataset));
-		await AsyncStorage.setItem('@State', JSON.stringify(state));
+		await AsyncStorage.setItem('@State', JSON.stringify(score));
 	};
 
 	return (
 		<SafeAreaView style={{ flex: 1, justifyContent: 'center' }}>
-			<Text>Bezier Line Chart</Text>
-			<LineChart
-				data={{
-					labels: ['Mon', 'Tue', 'Wed', 'Thr', 'Fri', 'Sat', 'Sun'],
-					datasets: [
-						{
-							data: dataset,
-						},
-						{
-							data: new Array(dataset?.length).fill(0),
-						},
-					],
-				}}
-				withInnerLines={false}
-				withOuterLines={false}
-				width={Dimensions.get('window').width} // from react-native
-				height={330}
-				withDots={false}
-				yAxisInterval={1} // optional, defaults to 1
-				chartConfig={{
-					backgroundColor: '#e26a00',
-					backgroundGradientFrom: '#fb8c00',
-					backgroundGradientTo: '#ffa726',
-					decimalPlaces: 2, // optional, defaults to 2dp
-					color: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-					labelColor: (opacity = 1) => `rgba(255, 255, 255, ${opacity})`,
-					style: {
-						borderRadius: 16,
-					},
-					propsForDots: {
-						r: '6',
-						strokeWidth: '2',
-						stroke: '#ffa726',
-					},
-				}}
-				bezier
-				style={{
-					marginVertical: 8,
-					borderRadius: 16,
-				}}
+			<AppText>Bezier Line Chart</AppText>
+			<Chart
+				dataset={dataset}
+				labels={[
+					'Mon',
+					'Tue',
+					'Wed',
+					'Thr',
+					'Fri',
+					'Sat',
+					'Sun',
+					'Mon',
+					'Tue',
+					'Wed',
+					'Thr',
+					'Fri',
+					'Sat',
+					'Sun',
+				]}
 			/>
 			<View style={{ flexDirection: 'row', justifyContent: 'space-around' }}>
-				<Button onPress={() => setState(state + 1)} title="+1" />
-				<Button onPress={() => setState(state - 1)} title="-1" />
+				<Button onPress={() => setScore(score + 1)} title="+1" />
+				<Button onPress={() => setScore(score - 1)} title="-1" />
 			</View>
-			<Text style={{ margin: 20, alignSelf: 'center' }}>{state}</Text>
+			<AppText style={{ margin: 20, alignSelf: 'center' }}>{score}</AppText>
 			<Button
-				onPress={async () => {
-					const newState = [...dataset];
-					newState.push(state);
-					setDataset(newState);
-					await saveData(state, newState);
-				}}
+				onPress={setClicked}
 				title="Set"
 			/>
-
 			<Backdrop
-				visible={true}
+				visible={false} //soon to be added
 				handleOpen={() => {}}
 				handleClose={() => {}}
 				onClose={() => {}}
@@ -108,7 +114,7 @@ export default function MainView() {
 				}}
 			>
 				<View>
-					<Text>Backdrop Content</Text>
+					<AppText>Backdrop Content</AppText>
 				</View>
 			</Backdrop>
 		</SafeAreaView>
