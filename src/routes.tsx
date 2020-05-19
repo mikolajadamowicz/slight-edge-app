@@ -6,8 +6,10 @@ import Statistics from './screens/Statistics';
 import MainView from './screens/MainView';
 import { SafeAreaProvider, useSafeArea } from 'react-native-safe-area-context';
 
-
-
+type RootStackParamList = {
+	Home: undefined,
+	Statistics: undefined,
+};
 
 const SafeAreaMaterialTopTabBar = ({ ...props }) => {
   const insets = useSafeArea();
@@ -19,7 +21,7 @@ const SafeAreaMaterialTopTabBar = ({ ...props }) => {
 }
 
 
-const Tab = createMaterialTopTabNavigator();
+const Tab = createMaterialTopTabNavigator<RootStackParamList>();
 
 export default function MyTabs() {
 	return (
