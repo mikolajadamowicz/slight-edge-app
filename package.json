@@ -9,24 +9,24 @@
     "t": "yarn tsc"
   },
   "dependencies": {
-    "@react-native-community/async-storage": "^1.10.0",
-    "@react-native-community/masked-view": "0.1.6",
-    "@react-navigation/material-top-tabs": "^5.1.15",
-    "@react-navigation/native": "^5.2.4",
+    "@react-native-community/async-storage": "^1.10.0", // donwloaded 
+    "@react-native-community/masked-view": "0.1.6",  // donwloaded 
+    "@react-navigation/material-top-tabs": "^5.1.15", // donwloaded 
+    "@react-navigation/native": "^5.2.4", // donwloaded 
     "expo": "~37.0.3",
     "moment": "^2.25.3",
-    "react": "~16.9.0",
+    "react": "~16.13.1",
     "react-dom": "~16.9.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-37.0.1.tar.gz",
-    "react-native-backdrop": "^1.0.16",
-    "react-native-chart-kit": "^5.5.0",
-    "react-native-gesture-handler": "~1.6.0",
-    "react-native-reanimated": "~1.7.0",
-    "react-native-safe-area-context": "0.7.3",
-    "react-native-screens": "~2.2.0",
-    "react-native-size-matters": "^0.3.0",
-    "react-native-svg": "11.0.1",
-    "react-native-tab-view": "^2.14.0",
+    "react-native-backdrop": "^1.0.16", // donwloaded 
+    "react-native-chart-kit": "^5.5.0", // donwloaded 
+    "react-native-gesture-handler": "~1.6.0",  // donwloaded 
+    "react-native-reanimated": "~1.7.0",  // donwloaded 
+    "react-native-safe-area-context": "0.7.3",  // donwloaded 
+    "react-native-screens": "~2.2.0",  // donwloaded 
+    "react-native-size-matters": "^0.3.0", // donwloaded 
+    "react-native-svg": "11.0.1", // donwloaded 
+    "react-native-tab-view": "^2.14.0", // donwloaded 
     "react-native-web": "~0.11.7"
   },
   "devDependencies": {
